@@ -167,7 +167,7 @@
     <div class="wrap">
       <h2>Get early access</h2>
       <p class="sub">We're setting Rout up for a small number of shops first, one at a time, so it fits how you actually work. Tell us about your shop and we'll reply personally.</p>
-      <form class="form" id="ea" method="POST" action="https://formspree.io/f/FORM_ID" novalidate>
+      <form class="form" id="ea" method="POST" action="https://formsubmit.co/ajax/cody.sagu@gmail.com" novalidate>
         <label for="email">Work email</label>
         <input id="email" name="email" type="email" required autocomplete="email" placeholder="you@yourshop.com">
         <label for="shop">Shop name</label>
@@ -184,6 +184,8 @@
         <textarea id="pain" name="pain" placeholder="e.g. change orders live in text messages, drawings are in three places..."></textarea>
         <div class="hp" aria-hidden="true"><label>Leave this empty<input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
         <input type="hidden" name="_subject" value="Rout early access request">
+        <input type="hidden" name="_template" value="table">
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
         <input type="hidden" name="utm_source" id="utm_source">
         <input type="hidden" name="utm_medium" id="utm_medium">
         <input type="hidden" name="utm_campaign" id="utm_campaign">
@@ -228,7 +230,8 @@
     }
     btn.disabled=true;btn.textContent='Sending…';ok.style.display='none';err.style.display='none';
     fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}})
-      .then(function(r){if(!r.ok)throw new Error(r.status);ok.style.display='block';form.reset();btn.textContent='Sent';
+      .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
+      .then(function(j){if(!j||String(j.success)!=='true')throw new Error('not delivered');ok.style.display='block';form.reset();btn.textContent='Sent';
             if(window.goatcounter&&goatcounter.count)goatcounter.count({path:'/early-access/submitted',title:'Early access submitted',event:true});})
       .catch(function(){err.style.display='block';btn.disabled=false;btn.textContent='Request early access';});
   });
